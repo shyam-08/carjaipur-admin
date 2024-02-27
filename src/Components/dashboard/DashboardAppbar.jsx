@@ -11,7 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 // import { useNavigate } from "react-router-dom";
 import MoreIcon from "@mui/icons-material/MoreVert";
-// import { useAppStore } from "../../AppStore";
+import { useAppStore } from "../../AppStore";
 // import { getAuth, signOut } from "firebase/auth";
 import swal from "sweetalert";
 
@@ -46,8 +46,8 @@ export default function DashboardAppbar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  // const updateOpen = useAppStore((state) => state.updateOpen);
-  // const dopen = useAppStore((state) => state.dopen);
+  const updateOpen = useAppStore((state) => state.updateOpen);
+  const dopen = useAppStore((state) => state.dopen);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

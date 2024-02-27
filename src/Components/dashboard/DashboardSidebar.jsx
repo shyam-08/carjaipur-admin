@@ -1,4 +1,4 @@
-// import * as React from "react";
+import React from 'react';
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -14,13 +14,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PeopleIcon from '@mui/icons-material/People';
 import { Navigate, useNavigate } from "react-router-dom";
-// import { useAppStore } from "../../AppStore";
 import GridViewIcon from '@mui/icons-material/GridView';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import Groups2Icon from '@mui/icons-material/Groups2';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-;
+import { useAppStore } from "../../AppStore";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -53,9 +53,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-
-
-const Drawer = styled(MuiDrawer, {
+const DrawerComponent = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   width: drawerWidth,
@@ -73,22 +71,19 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function DashboardSidebar() {
-
-// const navigate =useNavigate();
-
+  const navigate = useNavigate();
   const theme = useTheme();
-//   const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(true);
 
-  // const open = useAppStore((state)=>state.dopen);
-  
+  const dopen = useAppStore((state) => state.dopen);
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Box height={30}/>
-      <Drawer variant="permanent" open={open}>
+      <Box height={30} />
+      <DrawerComponent variant="permanent" open={dopen}>
         <DrawerHeader>
-          <IconButton>
+          <IconButton onClick={() => setOpen(!open)}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
@@ -98,7 +93,11 @@ export default function DashboardSidebar() {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding sx={{ display: "block" }} onClick={()=> navigate("/user/dashboard")}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => navigate("/dashboard")}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -121,36 +120,14 @@ export default function DashboardSidebar() {
               />
             </ListItemButton>
           </ListItem>
-  
         </List>
         <Divider />
         <List>
-        {/* <ListItem disablePadding sx={{ display: "block" }} onClick={()=> navigate("/user/users")}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <GroupWorkIcon/>
-
-                {/* <PeopleIcon /> */}
-              {/* </ListItemIcon> */}
-              {/* <ListItemText
-                primary="Users Managment"
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton> */}
-          {/* </ListItem> */}
-          <ListItem disablePadding sx={{ display: "block" }} onClick={()=> navigate("/user/riders")}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => navigate("/dashboard")}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -173,8 +150,11 @@ export default function DashboardSidebar() {
               />
             </ListItemButton>
           </ListItem>
-         
-          <ListItem disablePadding sx={{ display: "block" }} onClick={()=> Navigate("/contactform")}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => navigate("/contactform")}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -197,7 +177,11 @@ export default function DashboardSidebar() {
               />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding sx={{ display: "block" }} onClick={()=> navigate("/user/Finance")}>
+          <ListItem
+            disablePadding
+            sx={{ display: "block" }}
+            onClick={() => navigate("/sellform")}
+          >
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -212,7 +196,7 @@ export default function DashboardSidebar() {
                   justifyContent: "center",
                 }}
               >
-                <MonetizationOnIcon  />
+                <MonetizationOnIcon />
               </ListItemIcon>
               <ListItemText
                 primary="Sell Data"
@@ -221,7 +205,7 @@ export default function DashboardSidebar() {
             </ListItemButton>
           </ListItem>
         </List>
-      </Drawer>
+      </DrawerComponent>
     </Box>
   );
 }
