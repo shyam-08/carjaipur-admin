@@ -3,11 +3,32 @@
 import React, { useState, useEffect } from 'react';
 // import firestore from 'firebase/app'; // Importing firestore instance from firebase.js
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import Modal from '../Modal/Modal'
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 const Inventory = () => {
   const [cardata, setCardata] = useState([]);
+  const [newData, setNewData] = useState({});
+  const database = getFirestore();
+  const deleteData = async (documentId) => {
+    try {
+      await deleteDoc(doc(database, 'car data', documentId)); // Delete the document using deleteDoc method
+      console.log('Document deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting document: ', error);
+    }
+  };
+
+  const updateData= async (documentId, newData) => {
+    try {
+      await updateDoc(doc(database, 'car data', documentId), newData); // Delete the document using deleteDoc method
+      console.log('Document updated successfully.');
+    } catch (error) {
+      console.error('Error update document: ', error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +81,12 @@ const Inventory = () => {
               <td className="border p-2">{car.color}</td>
               <td className="border p-2">{car.fuel}</td>
               <td className="border p-2">{car.owner}</td>
-
+              <td className="border p-2">
+    <DeleteIcon onClick={() => deleteData(car.id)} />
+  </td>
+  {/* <td className="border p-2">
+    <ModeEditIcon onClick={() => updateData(car.id , newData)}/>
+  </td> */}
             </tr>
           ))}
         </tbody>
